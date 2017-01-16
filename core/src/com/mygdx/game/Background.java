@@ -35,9 +35,17 @@ class Background {
         texture = new Texture("staticback.jpg");
         textureStar = new Texture("star12.tga");
         stars = new Star[STARS_COUNT];
+        for (int i = 0; i < STARS_COUNT; i++) {
+            stars[i] = new Star();
+        }
     }
 
     void render(SpriteBatch batch) {
         batch.draw(texture, 0, 0);
+        for (Star star: stars) {
+            batch.draw(textureStar, star.position.x, star.position.y);
+            star.update();
+        }
+
     }
 }
