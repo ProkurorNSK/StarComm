@@ -4,24 +4,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Vector;
-
 class Background {
 
     class Star {
+        static final float SPEED_MAX = 500.0f;
+        static final float SPEED_MIN = 60.0f;
         private Vector2 position;
         private float speed;
 
-        public Star() {
-            position = new Vector2((float) Math.random() * 1280, (float) Math.random() * 1280);
-            speed = 5.0f;
+        Star() {
+            position = new Vector2((float) Math.random() * 1280, (float) Math.random() * 720);
+            speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
         }
 
-        public void update() {
-            position.x -=  speed;
+        void update(long dt) {
+            position.x -= speed * dt / 1000;
             if (position.x < 0) {
                 position.x = 1280;
                 position.y = (float) Math.random() * 720;
+                speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
             }
         }
     }
@@ -29,23 +30,28 @@ class Background {
     private Texture texture;
     private Texture textureStar;
     private Star[] stars;
-    private final int STARS_COUNT = 200;
 
     Background() {
         texture = new Texture("staticback.jpg");
         textureStar = new Texture("star12.tga");
+        int STARS_COUNT = 400;
         stars = new Star[STARS_COUNT];
-        for (int i = 0; i < STARS_COUNT; i++) {
+        for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star();
         }
     }
 
     void render(SpriteBatch batch) {
         batch.draw(texture, 0, 0);
-        for (Star star: stars) {
+        for (Star star : stars) {
             batch.draw(textureStar, star.position.x, star.position.y);
-            star.update();
         }
 
+    }
+
+    void update(long dt) {
+        for (Star star : stars) {
+            star.update(dt);
+        }
     }
 }
