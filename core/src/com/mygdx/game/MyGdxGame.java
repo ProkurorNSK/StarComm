@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Background background;
+    private Hero hero;
     private long pastTime;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         background = new Background();
+        hero = new Hero();
         pastTime = System.currentTimeMillis();
     }
 
@@ -24,12 +26,14 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.render(batch);
+        hero.render(batch);
         batch.end();
     }
 
     private void update() {
-        long currentTime= System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
         background.update(currentTime - pastTime);
+        hero.update(currentTime - pastTime);
         pastTime = currentTime;
     }
 

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,15 +14,15 @@ class Background {
         private float speed;
 
         Star() {
-            position = new Vector2((float) Math.random() * 1280, (float) Math.random() * 720);
+            position = new Vector2((float) Math.random() * Gdx.graphics.getWidth(), (float) Math.random() * Gdx.graphics.getHeight());
             speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
         }
 
         void update(long dt) {
             position.x -= speed * dt / 1000;
             if (position.x < 0) {
-                position.x = 1280;
-                position.y = (float) Math.random() * 720;
+                position.x = Gdx.graphics.getWidth();
+                position.y = (float) Math.random() * Gdx.graphics.getHeight();
                 speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
             }
         }
