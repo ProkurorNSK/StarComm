@@ -13,6 +13,8 @@ class Hero {
     private float angle;
     private float speedAngle;
     private float maxAngle;
+    private int fireRate;
+    private int fireCounter;
 
     Hero() {
         position = new Vector2(100, 100);
@@ -21,6 +23,8 @@ class Hero {
         speedAngle = 2.0f;
         angle = 0.0f;
         maxAngle = 40.0f;
+        fireRate = 10;
+        fireCounter = 0;
     }
 
     void render(SpriteBatch batch) {
@@ -72,6 +76,23 @@ class Hero {
             position.x += speed * dt / 1000;
             if (position.x > Gdx.graphics.getWidth() - texture.getWidth()) {
                 position.x = Gdx.graphics.getWidth() - texture.getWidth();
+            }
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            fireCounter++;
+            if (fireCounter > fireRate) {
+                fireCounter = 0;
+                fire();
+            }
+        }
+    }
+
+    private void fire() {
+        for (Bullet bullet : MyGdxGame.bullets) {
+            if (!bullet.isActive()) {
+                bullet.setup(position.x + texture.getWidth(), position.y + texture.getHeight() / 2);
+                break;
             }
         }
     }

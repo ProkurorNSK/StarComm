@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 class Asteroid {
@@ -20,7 +21,11 @@ class Asteroid {
         }
     }
 
-    private void recreate() {
+    Rectangle getRectangle() {
+        return new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+    }
+
+    void recreate() {
         position.x = (float) (Math.random() + 1) * Gdx.graphics.getWidth();
         position.y = (float) Math.random() * Gdx.graphics.getHeight();
         speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;

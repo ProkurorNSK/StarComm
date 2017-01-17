@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -12,6 +13,8 @@ public class MyGdxGame extends ApplicationAdapter {
     private Hero hero;
     private long pastTime;
     private Asteroid[] asteroids;
+    static Bullet[] bullets;
+    private Texture textureBullet;
 
     @Override
     public void create() {
@@ -23,6 +26,11 @@ public class MyGdxGame extends ApplicationAdapter {
         for (int i = 0; i < asteroids.length; i++) {
             asteroids[i] = new Asteroid();
         }
+        bullets = new Bullet[200];
+        for (int i = 0; i < bullets.length; i++) {
+            bullets[i] = new Bullet();
+        }
+        textureBullet = new Texture("bullet20.png");
     }
 
     @Override
@@ -33,8 +41,13 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.begin();
         background.render(batch);
         hero.render(batch);
-        for (Asteroid asteroid: asteroids) {
+        for (Asteroid asteroid : asteroids) {
             asteroid.render(batch);
+        }
+        for (Bullet bullet : bullets) {
+            if (bullet.isActive()) {
+                bullet.render(batch, textureBullet);
+            }
         }
         batch.end();
     }
@@ -43,8 +56,20 @@ public class MyGdxGame extends ApplicationAdapter {
         long currentTime = System.currentTimeMillis();
         background.update(currentTime - pastTime);
         hero.update(currentTime - pastTime);
-        for (Asteroid asteroid: asteroids) {
+        for (Asteroid asteroid : asteroids) {
             asteroid.update(currentTime - pastTime);
+        }
+        for (Bullet bullet : bullets) {
+            if (bullet.isActive()) {
+                bullet.update(currentTime - pastTime);
+                for (Asteroid asteroid : asteroids) {
+                    if (asteroid.getRectangle().contains(bullet.getPosition())) {
+                        asteroid.recreate();
+                        bullet.destroy();
+                        break;
+                    }
+                }
+            }
         }
         pastTime = currentTime;
 
