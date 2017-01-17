@@ -24,14 +24,11 @@ class Hero {
         angle = 0.0f;
         maxAngle = 40.0f;
         fireRate = 10;
-        fireCounter = 0;
+        fireCounter = fireRate;
     }
 
     void render(SpriteBatch batch) {
-//        batch.draw(texture, position.x, position.y);
         batch.draw(texture, position.x, position.y, texture.getWidth() / 2, texture.getHeight() / 2, texture.getWidth(), texture.getHeight(), 1f, 1f, angle, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
-//        batch.draw(texture, position.x, position.y + Gdx.graphics.getHeight());
-//        batch.draw(texture, position.x, position.y - Gdx.graphics.getHeight());
     }
 
     void update(long dt) {
@@ -89,11 +86,6 @@ class Hero {
     }
 
     private void fire() {
-        for (Bullet bullet : MyGdxGame.bullets) {
-            if (!bullet.isActive()) {
-                bullet.setup(position.x + texture.getWidth(), position.y + texture.getHeight() / 2);
-                break;
-            }
-        }
+        MyGdxGame.bullets.add(new Bullet(position.x + texture.getWidth(), position.y + texture.getHeight() / 2));
     }
 }

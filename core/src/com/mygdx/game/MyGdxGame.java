@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Background background;
     private Hero hero;
     private long pastTime;
     private Asteroid[] asteroids;
-    static Bullet[] bullets;
+    static ArrayList<Bullet> bullets;
     private Texture textureBullet;
 
     @Override
@@ -26,10 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
         for (int i = 0; i < asteroids.length; i++) {
             asteroids[i] = new Asteroid();
         }
-        bullets = new Bullet[200];
-        for (int i = 0; i < bullets.length; i++) {
-            bullets[i] = new Bullet();
-        }
+        bullets = new ArrayList<>();
         textureBullet = new Texture("bullet20.png");
     }
 
@@ -45,9 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
             asteroid.render(batch);
         }
         for (Bullet bullet : bullets) {
-            if (bullet.isActive()) {
-                bullet.render(batch, textureBullet);
-            }
+            bullet.render(batch, textureBullet);
         }
         batch.end();
     }
@@ -59,15 +56,17 @@ public class MyGdxGame extends ApplicationAdapter {
         for (Asteroid asteroid : asteroids) {
             asteroid.update(currentTime - pastTime);
         }
-        for (Bullet bullet : bullets) {
-            if (bullet.isActive()) {
-                bullet.update(currentTime - pastTime);
-                for (Asteroid asteroid : asteroids) {
-                    if (asteroid.getRectangle().contains(bullet.getPosition())) {
-                        asteroid.recreate();
-                        bullet.destroy();
-                        break;
-                    }
+        for (int i = bullets.size() - 1 ; i >= 0; i--) {
+            bullets.get(i).update(currentTime - pastTime);
+            if (bullets.get(i).getPosition().x > Gdx.graphics.getWidth()) {
+                bullets.remove(i);
+                continue;
+            }
+            for (Asteroid asteroid : asteroids) {
+                if (asteroid.getRectangle().contains(bullets.get(i).getPosition())) {
+                     asteroid.recreate();
+                    bullets.remove(i);
+                    break;
                 }
             }
         }
