@@ -16,7 +16,7 @@ class Hero {
 
     Hero() {
         position = new Vector2(100, 100);
-        texture = new Texture("ship80x60.tga");
+        texture = new Texture("her.png");
         speed = 720.0f;
         speedAngle = 2.0f;
         angle = 0.0f;
