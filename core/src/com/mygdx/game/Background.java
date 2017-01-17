@@ -35,8 +35,7 @@ class Background {
     Background() {
         texture = new Texture("staticback.jpg");
         textureStar = new Texture("star12.tga");
-        int STARS_COUNT = 400;
-        stars = new Star[STARS_COUNT];
+        stars = new Star[300];
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star();
         }

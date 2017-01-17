@@ -20,7 +20,7 @@ class Hero {
         speed = 720.0f;
         speedAngle = 2.0f;
         angle = 0.0f;
-        maxAngle = 30.0f;
+        maxAngle = 40.0f;
     }
 
     void render(SpriteBatch batch) {
