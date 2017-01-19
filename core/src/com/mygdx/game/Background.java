@@ -47,7 +47,8 @@ class Background {
     void render(SpriteBatch batch) {
         batch.draw(texture, 0, 0);
         for (Star star : stars) {
-            batch.draw(textureStar, star.position.x, star.position.y, textureStar.getWidth() / 2, textureStar.getHeight() / 2, 0.0f, 0.0f, star.size, star.size, textureStar.getWidth(), textureStar.getHeight()), false, false);
+            batch.draw(textureStar, star.position.x, star.position.y);
+//            , textureStar.getWidth() / 2, textureStar.getHeight() / 2, 0.0f, 0.0f, star.size, star.size, textureStar.getWidth(), textureStar.getHeight(), false, false
         }
 
     }
