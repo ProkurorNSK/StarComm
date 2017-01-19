@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,7 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
             asteroids[i] = new Asteroid();
         }
         bullets = new ArrayList<>();
-        textureBullet = new Texture("bullet20.png");
+        textureBullet = new Texture("bullet20.tga");
     }
 
     @Override
@@ -51,30 +50,27 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private void update() {
         long currentTime = System.currentTimeMillis();
-        background.update(currentTime - pastTime);
-        hero.update(currentTime - pastTime);
+        long dt = currentTime - pastTime;
+        background.update(dt);
+        hero.update(dt);
         for (Asteroid asteroid : asteroids) {
-            asteroid.update(currentTime - pastTime);
+            asteroid.update(dt);
         }
-        for (int i = bullets.size() - 1 ; i >= 0; i--) {
-            bullets.get(i).update(currentTime - pastTime);
+        for (int i = bullets.size() - 1; i >= 0; i--) {
+            bullets.get(i).update(dt);
             if (bullets.get(i).getPosition().x > Gdx.graphics.getWidth()) {
                 bullets.remove(i);
                 continue;
             }
             for (Asteroid asteroid : asteroids) {
                 if (asteroid.getRectangle().contains(bullets.get(i).getPosition())) {
-                     asteroid.recreate();
+                    asteroid.recreate();
                     bullets.remove(i);
                     break;
                 }
             }
         }
         pastTime = currentTime;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            System.out.println(Gdx.graphics.getWidth() + " - " + Gdx.graphics.getHeight());
-        }
     }
 
     @Override

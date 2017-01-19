@@ -13,18 +13,18 @@ class Hero {
     private float angle;
     private float speedAngle;
     private float maxAngle;
-    private int fireRate;
-    private int fireCounter;
+    private float fireRate;
+    private float fireCounter;
 
     Hero() {
         position = new Vector2(100, 100);
-        texture = new Texture("her.png");
+        texture = new Texture("ship80x60.tga");
         speed = 720.0f;
         speedAngle = 2.0f;
         angle = 0.0f;
         maxAngle = 40.0f;
-        fireRate = 10;
-        fireCounter = fireRate;
+        fireRate = 5.0f;
+        fireCounter = 1 / fireRate;
     }
 
     void render(SpriteBatch batch) {
@@ -77,8 +77,8 @@ class Hero {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            fireCounter++;
-            if (fireCounter > fireRate) {
+            fireCounter += (float) dt / 1000;
+            if (fireCounter > 1 / fireRate) {
                 fireCounter = 0;
                 fire();
             }

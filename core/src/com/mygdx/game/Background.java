@@ -12,10 +12,12 @@ class Background {
         static final float SPEED_MIN = 60.0f;
         private Vector2 position;
         private float speed;
+        private float size;
 
         Star() {
             position = new Vector2((float) Math.random() * Gdx.graphics.getWidth(), (float) Math.random() * Gdx.graphics.getHeight());
             speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
+            size = 0.5f + (speed / 500.0f);
         }
 
         void update(long dt) {
@@ -24,6 +26,7 @@ class Background {
                 position.x = Gdx.graphics.getWidth();
                 position.y = (float) Math.random() * Gdx.graphics.getHeight();
                 speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
+                size = 0.5f + (speed / 500.0f);
             }
         }
     }
@@ -44,7 +47,7 @@ class Background {
     void render(SpriteBatch batch) {
         batch.draw(texture, 0, 0);
         for (Star star : stars) {
-            batch.draw(textureStar, star.position.x, star.position.y);
+            batch.draw(textureStar, star.position.x, star.position.y, textureStar.getWidth() / 2, textureStar.getHeight() / 2, 0.0f, 0.0f, star.size, star.size, textureStar.getWidth(), textureStar.getHeight()), false, false);
         }
 
     }
