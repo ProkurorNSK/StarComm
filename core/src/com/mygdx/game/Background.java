@@ -10,14 +10,14 @@ class Background {
     class Star {
         static final float SPEED_MAX = 500.0f;
         static final float SPEED_MIN = 60.0f;
-        private Vector2 position;
+        private final Vector2 position;
         private float speed;
         private float size;
 
         Star() {
             position = new Vector2((float) Math.random() * Gdx.graphics.getWidth(), (float) Math.random() * Gdx.graphics.getHeight());
             speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
-            size = 0.5f + (speed / 500.0f);
+            size = 0.5f + (speed / 300.0f);
         }
 
         void update(long dt) {
@@ -31,9 +31,9 @@ class Background {
         }
     }
 
-    private Texture texture;
-    private Texture textureStar;
-    private Star[] stars;
+    private final Texture texture;
+    private final Texture textureStar;
+    private final Star[] stars;
 
     Background() {
         texture = new Texture("staticback.jpg");
@@ -47,8 +47,7 @@ class Background {
     void render(SpriteBatch batch) {
         batch.draw(texture, 0, 0);
         for (Star star : stars) {
-            batch.draw(textureStar, star.position.x, star.position.y);
-//            , textureStar.getWidth() / 2, textureStar.getHeight() / 2, 0.0f, 0.0f, star.size, star.size, textureStar.getWidth(), textureStar.getHeight(), false, false
+            batch.draw(textureStar, star.position.x, star.position.y, textureStar.getWidth() / 2, textureStar.getHeight() / 2, textureStar.getWidth(), textureStar.getHeight(), star.size, star.size, 0.0f, 0, 0, textureStar.getWidth(), textureStar.getHeight(), false, false);
         }
 
     }

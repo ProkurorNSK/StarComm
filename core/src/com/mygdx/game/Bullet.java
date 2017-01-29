@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 class Bullet {
-    private Vector2 position;
-    private float speed;
+    private final Vector2 position;
+    private final float speed;
 
     Bullet(float x, float y) {
         position = new Vector2(x, y);

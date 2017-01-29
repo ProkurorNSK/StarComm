@@ -9,16 +9,16 @@ import com.badlogic.gdx.math.Vector2;
 class Asteroid {
     private static final float SPEED_MAX = 500.0f;
     private static final float SPEED_MIN = 100.0f;
-    private Vector2 position;
+    private final Vector2 position;
     private float speed;
     private static Texture texture;
 
     Asteroid() {
-        position = new Vector2((float) (Math.random() + 1) * Gdx.graphics.getWidth(), (float) Math.random() * Gdx.graphics.getHeight());
-        speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
         if (texture == null) {
             texture = new Texture("asteroid60.tga");
         }
+        position = new Vector2((float) (Math.random() + 1) * Gdx.graphics.getWidth(), (float) Math.random() * (Gdx.graphics.getHeight() - texture.getHeight()));
+        speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
     }
 
     Rectangle getRectangle() {
@@ -27,7 +27,7 @@ class Asteroid {
 
     void recreate() {
         position.x = (float) (Math.random() + 1) * Gdx.graphics.getWidth();
-        position.y = (float) Math.random() * Gdx.graphics.getHeight();
+        position.y = (float) Math.random() * Gdx.graphics.getHeight() - texture.getHeight();
         speed = SPEED_MIN + (float) Math.random() * SPEED_MAX;
     }
 

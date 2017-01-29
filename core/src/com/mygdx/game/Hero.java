@@ -4,16 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 class Hero {
-    private Vector2 position;
-    private Texture texture;
-    private float speed;
+    private final Vector2 position;
+    private final Texture texture;
+    private final float speed;
     private float angle;
-    private float speedAngle;
-    private float maxAngle;
-    private float fireRate;
+    private final float speedAngle;
+    private final float maxAngle;
+    private final float fireRate;
     private float fireCounter;
 
     Hero() {
@@ -23,12 +24,22 @@ class Hero {
         speedAngle = 2.0f;
         angle = 0.0f;
         maxAngle = 40.0f;
-        fireRate = 5.0f;
+        fireRate = 10.0f;
         fireCounter = 1 / fireRate;
     }
 
     void render(SpriteBatch batch) {
         batch.draw(texture, position.x, position.y, texture.getWidth() / 2, texture.getHeight() / 2, texture.getWidth(), texture.getHeight(), 1f, 1f, angle, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+    }
+
+    Rectangle getRectangle() {
+        return new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+    }
+
+    void recreate() {
+        position.x = 100;
+        position.y = 100;
+        angle = 0.0f;
     }
 
     void update(long dt) {

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private Asteroid[] asteroids;
     static ArrayList<Bullet> bullets;
     private Texture textureBullet;
+    private boolean isPaused;
 
     @Override
     public void create() {
@@ -23,12 +25,13 @@ public class MyGdxGame extends ApplicationAdapter {
         background = new Background();
         hero = new Hero();
         pastTime = System.currentTimeMillis();
-        asteroids = new Asteroid[30];
+        asteroids = new Asteroid[20];
         for (int i = 0; i < asteroids.length; i++) {
             asteroids[i] = new Asteroid();
         }
         bullets = new ArrayList<>();
         textureBullet = new Texture("bullet20.tga");
+        isPaused = false;
     }
 
     @Override
@@ -49,24 +52,34 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private void update() {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.P)) {
+            isPaused = !isPaused;
+        }
+
         long currentTime = System.currentTimeMillis();
         long dt = currentTime - pastTime;
-        background.update(dt);
-        hero.update(dt);
-        for (Asteroid asteroid : asteroids) {
-            asteroid.update(dt);
-        }
-        for (int i = bullets.size() - 1; i >= 0; i--) {
-            bullets.get(i).update(dt);
-            if (bullets.get(i).getPosition().x > Gdx.graphics.getWidth()) {
-                bullets.remove(i);
-                continue;
-            }
+        if (!isPaused) {
+            background.update(dt);
+            hero.update(dt);
             for (Asteroid asteroid : asteroids) {
-                if (asteroid.getRectangle().contains(bullets.get(i).getPosition())) {
-                    asteroid.recreate();
+                if (hero.getRectangle().overlaps(asteroid.getRectangle())) {
+                    hero.recreate();
+                }
+                asteroid.update(dt);
+            }
+            for (int i = bullets.size() - 1; i >= 0; i--) {
+                bullets.get(i).update(dt);
+                if (bullets.get(i).getPosition().x > Gdx.graphics.getWidth()) {
                     bullets.remove(i);
-                    break;
+                    continue;
+                }
+                for (Asteroid asteroid : asteroids) {
+                    if (asteroid.getRectangle().contains(bullets.get(i).getPosition())) {
+                        asteroid.recreate();
+                        bullets.remove(i);
+                        break;
+                    }
                 }
             }
         }
