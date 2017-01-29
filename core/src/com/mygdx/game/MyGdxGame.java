@@ -76,7 +76,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
                 for (Asteroid asteroid : asteroids) {
                     if (asteroid.getRectangle().contains(bullets.get(i).getPosition())) {
-                        asteroid.recreate();
+                        asteroid.getDamage(1);
                         bullets.remove(i);
                         break;
                     }
